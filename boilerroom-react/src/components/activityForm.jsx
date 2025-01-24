@@ -1,71 +1,69 @@
-// src/components/ActivityForm.js
-// src/components/ActivityForm.js
-// src/components/ActivityForm.js
 import { useState } from 'react';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 
 function ActivityForm({ onAddActivity }) {
-  // Lokala states för våra inputfält
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
+  // Lokalt felmeddelande om formuläret är ofullständigt
+  const [formError, setFormError] = useState('');
 
-  // Hanterar formulärets "skicka"-knapp
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Enkel kontroll så att alla fält är ifyllda
+    
+    // Enkel validering
     if (!name.trim() || !date.trim() || !location.trim()) {
-      alert('Vänligen fyll i alla fält');
+      setFormError('Vänligen fyll i alla fält.');
       return;
     }
 
-    // Skapa ett nytt objekt för aktiviteten
-    const newActivity = {
-      name,
-      date,
-      location
-    };
+    // Skapa nytt objekt
+    const newActivity = { name, date, location };
 
-    // Anropa funktionen från App för att lägga till aktiviteten
+    // Skicka upp till föräldern (App)
     onAddActivity(newActivity);
 
-    // Töm fälten efter att aktiviteten lagts till
+    // Töm formulär
     setName('');
     setDate('');
     setLocation('');
+    setFormError(''); // Rensa fel
   };
 
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
       <div>
-        <label>Aktivitet:</label>
-        <input 
+        <label>Namn:</label>
+        <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Ex: Sightseeing"
+          placeholder="Ex. Sightseeing"
         />
       </div>
-
       <div>
         <label>Datum:</label>
-        <input 
-          type="date" 
+        <input
+          type="date"
           value={date}
-          onChange={(e) => setDate(e.target.value)} 
+          onChange={(e) => setDate(e.target.value)}
         />
       </div>
-
       <div>
         <label>Plats:</label>
-        <input 
+        <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Ex: Stockholm"
+          placeholder="Ex. Stockholm"
         />
       </div>
+
+      {formError && (
+        <div style={{ color: 'red', marginTop: '10px' }}>
+          {formError}
+        </div>
+      )}
 
       <button type="submit" style={{ marginTop: '10px' }}>
         Lägg till aktivitet
@@ -74,7 +72,6 @@ function ActivityForm({ onAddActivity }) {
   );
 }
 ActivityForm.propTypes = {
-    onAddActivity: PropTypes.func.isRequired,
-  };
-
+  onAddActivity: PropTypes.func.isRequired
+};
 export default ActivityForm;
