@@ -2,37 +2,28 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function ActivityList({ activities, onEditActivity }) {
-  // Håller reda på vilken aktivitet (index) som är i "redigeringsläge"
   const [editIndex, setEditIndex] = useState(null);
-  // Tillfälliga värden för redigeringsformuläret
   const [tempName, setTempName] = useState('');
   const [tempDate, setTempDate] = useState('');
   const [tempLocation, setTempLocation] = useState('');
 
-  // Starta redigeringsläge för en viss aktivitet
+
   const handleEditClick = (index) => {
     setEditIndex(index);
-    // Fyll i nuvarande värden i våra tillfälliga states
     setTempName(activities[index].name);
     setTempDate(activities[index].date);
     setTempLocation(activities[index].location);
   };
 
-  // Spara ändringar
   const handleSave = (index) => {
-    // Skapa nytt objekt
     const updatedActivity = {
       name: tempName,
       date: tempDate,
       location: tempLocation,
     };
     onEditActivity(index, updatedActivity);
-
-    // Avsluta redigeringsläge
     setEditIndex(null);
   };
-
-  // Avbryt redigering utan att spara
   const handleCancel = () => {
     setEditIndex(null);
   };
@@ -44,7 +35,6 @@ function ActivityList({ activities, onEditActivity }) {
       {activities.length === 0 && <p>Inga aktiviteter tillagda ännu.</p>}
 
       {activities.map((activity, index) => {
-        // Är vi i redigeringsläge på just det här indexet?
         if (editIndex === index) {
           return (
             <div key={index} style={styles.itemContainer}>
@@ -68,7 +58,6 @@ function ActivityList({ activities, onEditActivity }) {
             </div>
           );
         } else {
-          // Vanlig visning (inte i redigeringsläge)
           return (
             <div key={index} style={styles.itemContainer}>
               <p>
@@ -104,7 +93,6 @@ ActivityList.propTypes = {
       name: PropTypes.string,
       date: PropTypes.string,
       location: PropTypes.string
-      // Lägg till fler fält om du har dem
     })
   ).isRequired,
 

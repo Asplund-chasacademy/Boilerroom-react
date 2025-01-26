@@ -5,29 +5,22 @@ function ActivityForm({ onAddActivity }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
-  // Lokalt felmeddelande om formuläret är ofullständigt
   const [formError, setFormError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Enkel validering
     if (!name.trim() || !date.trim() || !location.trim()) {
       setFormError('Vänligen fyll i alla fält.');
       return;
     }
 
-    // Skapa nytt objekt
     const newActivity = { name, date, location };
-
-    // Skicka upp till föräldern (App)
     onAddActivity(newActivity);
-
-    // Töm formulär
     setName('');
     setDate('');
     setLocation('');
-    setFormError(''); // Rensa fel
+    setFormError(''); 
   };
 
   return (
