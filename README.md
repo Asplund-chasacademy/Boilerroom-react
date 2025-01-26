@@ -1,6 +1,5 @@
-# Boilerroom-react
-boilerroom react vecka 3
-# Reseplanerare med Vite + React
+boilerroom react 
+
 
 Detta projekt är en enkel reseplanerare som innehåller:
 
@@ -9,13 +8,13 @@ Detta projekt är en enkel reseplanerare som innehåller:
 - Dynamiska felmeddelanden istället för alerts
 - Grundläggande filstruktur och kommentarer
 
-## Hur du kör projektet
+Hur du kör projektet
 
 1. Klona repot och gå in i mappen.
 2. Kör `npm install` för att installera alla beroenden.
 3. Kör `npm run dev` för att starta en lokal utvecklingsserver (t.ex. (http://localhost:5173)).
 
-## Funktioner
+Funktioner
 
 - **Lägg till aktivitet**: Använd formuläret. Tomma fält ger ett rött felmeddelande.
 - **Ta bort senaste aktivitet**: Klicka på knappen "Ta bort senaste aktivitet". Om listan är tom visas ett rött felmeddelande.

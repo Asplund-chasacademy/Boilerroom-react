@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
-function ActivityList({ activities, onEditActivity }) {
+function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
   const [editIndex, setEditIndex] = useState(null);
   const [tempName, setTempName] = useState('');
   const [tempDate, setTempDate] = useState('');
   const [tempLocation, setTempLocation] = useState('');
-
 
   const handleEditClick = (index) => {
     setEditIndex(index);
@@ -19,25 +17,27 @@ function ActivityList({ activities, onEditActivity }) {
     const updatedActivity = {
       name: tempName,
       date: tempDate,
-      location: tempLocation,
+      location: tempLocation
     };
     onEditActivity(index, updatedActivity);
     setEditIndex(null);
   };
+
   const handleCancel = () => {
     setEditIndex(null);
   };
 
+  if (activities.length === 0) {
+    return <p>Inga aktiviteter tillagda ännu.</p>;
+  }
+
   return (
-    <div>
-      <h2>Dina aktiviteter</h2>
-
-      {activities.length === 0 && <p>Inga aktiviteter tillagda ännu.</p>}
-
+    <>
       {activities.map((activity, index) => {
         if (editIndex === index) {
+          // Redigeringsläge
           return (
-            <div key={index} style={styles.itemContainer}>
+            <div key={index} className="activity-item">
               <input
                 type="text"
                 value={tempName}
@@ -53,49 +53,37 @@ function ActivityList({ activities, onEditActivity }) {
                 value={tempLocation}
                 onChange={(e) => setTempLocation(e.target.value)}
               />
-              <button onClick={() => handleSave(index)}>Spara</button>
-              <button onClick={handleCancel}>Avbryt</button>
+              <button className="button" onClick={() => handleSave(index)}>
+                Spara
+              </button>
+              <button className="button button-secondary" onClick={handleCancel}>
+                Avbryt
+              </button>
             </div>
           );
         } else {
+          // Visningsläge
           return (
-            <div key={index} style={styles.itemContainer}>
-              <p>
-                <strong>Namn:</strong> {activity.name}
-              </p>
-              <p>
-                <strong>Datum:</strong> {activity.date}
-              </p>
-              <p>
-                <strong>Plats:</strong> {activity.location}
-              </p>
-              <button onClick={() => handleEditClick(index)}>
+            <div key={index} className="activity-item">
+              <p><strong>Namn:</strong> {activity.name}</p>
+              <p><strong>Datum:</strong> {activity.date}</p>
+              <p><strong>Plats:</strong> {activity.location}</p>
+              <button className="button" onClick={() => handleEditClick(index)}>
                 Redigera
+              </button>
+              {/* NY KNAPP: TA BORT */}
+              <button
+                className="button button-delete"
+                onClick={() => onRemoveActivity(index)}
+              >
+                Ta bort
               </button>
             </div>
           );
         }
       })}
-    </div>
+    </>
   );
 }
 
-const styles = {
-  itemContainer: {
-    border: '1px solid #ccc',
-    padding: '10px',
-    marginBottom: '10px',
-  },
-};
-ActivityList.propTypes = {
-  activities: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      date: PropTypes.string,
-      location: PropTypes.string
-    })
-  ).isRequired,
-
-onEditActivity: PropTypes.func.isRequired
-};
 export default ActivityList;
