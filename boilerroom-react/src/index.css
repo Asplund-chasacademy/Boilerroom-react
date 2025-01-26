@@ -1,18 +1,10 @@
-/* src/index.css */
-/* ---- Global styling ---- */
 body {
-  /* Byt gärna till ett Google-font om du vill, ex: 'Open Sans', 'Poppins', 'Roboto' */
   font-family: Arial, sans-serif;
-  /* En enkel gradientbakgrund */
-  background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #97c3ee 0%, #ffffff 100%);
   margin: 0; 
   padding: 0;
 }
 
-/* Tar bort det globala "div { margin-bottom: 20px; }" för finare kontroll. 
-   Istället sätt specifika marginaler via klasser. */
-
-/* ---- Wrapper för att centrera huvudsektionen ---- */
 .app-container {
   max-width: 600px;
   margin: 40px auto; 
@@ -22,7 +14,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ---- Rubrik ---- */
+
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -30,20 +22,7 @@ h1 {
   color: #333;
 }
 
-/* ---- Avsnitt för formulär, listor m.m. ---- */
-.form-section, 
-.list-section {
-  margin-bottom: 20px;
-}
 
-/* ---- Felmeddelanden ---- */
-.error-message {
-  color: #d9534f; /* Röd ton */
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-/* ---- Aktivitetens "kort" ---- */
 .activity-item {
   border: 1px solid #ddd;
   padding: 10px;
@@ -59,32 +38,32 @@ h1 {
 
 
 
-/* Gör label till block så att input kommer under */
+
 label {
   display: block;
   font-weight: bold;
   margin-top: 10px;
 }
 
-/* Lite styling för inputs */
+
 input {
   width: 100%;
   box-sizing: border-box;
   padding: 8px;
   margin-top: 5px;
   margin-bottom: 10px;
-  border: 1px solid #e9afaf;
+  border: 1px solid #5ba2b4;
   border-radius: 4px;
   font-size: 1rem;
 }
 
-/* Styla datuminputs lika */
+
 input[type="date"] {
   color: #333;
   padding: 6px;
 }
 
-/* Justera spacing för submitknappen i formuläret */
+
 form button {
   margin-top: 5px;
 }
