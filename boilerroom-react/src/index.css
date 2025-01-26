@@ -1,16 +1,17 @@
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #97c3ee 0%, #ffffff 100%);
-  margin: 0; 
+  background: linear-gradient(135deg, #7fa2c5 0%, #ffffff 100%);
+  margin: 0;
   padding: 0;
 }
 
+
 .app-container {
   max-width: 600px;
-  margin: 40px auto; 
+  margin: 40px auto;
   padding: 20px;
-  background-color: #ffffff; 
-  border-radius: 12px; 
+  background-color: #ffffff;
+  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -20,6 +21,19 @@ h1 {
   margin-bottom: 20px;
   font-size: 2rem;
   color: #333;
+}
+
+
+.form-section,
+.list-section {
+  margin-bottom: 20px;
+}
+
+
+.error-message {
+  color: #d9534f;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 
@@ -36,8 +50,36 @@ h1 {
 }
 
 
+.button {
+  background-color: #1c7ed6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease-in-out;
+  margin-right: 5px;
+}
+
+.button:hover {
+  background-color: #1864ab;
+}
 
 
+.button-delete {
+  background-color: #dc3545; 
+}
+.button-delete:hover {
+  background-color: #c82333;
+}
+
+.button-secondary {
+  background-color: #6c757d; 
+}
+.button-secondary:hover {
+  background-color: #5a6268;
+}
 
 label {
   display: block;
@@ -45,25 +87,14 @@ label {
   margin-top: 10px;
 }
 
-
+/* Lite styling för inputs */
 input {
   width: 100%;
   box-sizing: border-box;
   padding: 8px;
   margin-top: 5px;
   margin-bottom: 10px;
-  border: 1px solid #5ba2b4;
+  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-}
-
-
-input[type="date"] {
-  color: #333;
-  padding: 6px;
-}
-
-
-form button {
-  margin-top: 5px;
 }
