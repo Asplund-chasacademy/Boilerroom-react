@@ -1,7 +1,7 @@
 // src/index.js
 import { createRoot } from 'react-dom/client'; 
 import App from './App';
-import './index.css'; // Om du vill ha lite grundläggande CSS
+import './index.css'; 
 
 const container = document.getElementById('root');
 const root = createRoot(container);
