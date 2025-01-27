@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
   const [editIndex, setEditIndex] = useState(null);
@@ -85,5 +86,15 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
     </>
   );
 }
-
+ActivityList.propTypes = {
+  activities: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      date: PropTypes.string,
+      location: PropTypes.string
+    })
+  ).isRequired,
+  onEditActivity: PropTypes.func.isRequired,
+  onRemoveActivity: PropTypes.func.isRequired
+};
 export default ActivityList;
