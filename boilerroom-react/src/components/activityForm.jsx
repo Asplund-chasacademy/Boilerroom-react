@@ -1,6 +1,9 @@
+//ansvarig för att samla in data namna, plats, datum och skickar det vidare via
+//till app via onAddActivity
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
+ 
 function ActivityForm({ onAddActivity }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -26,7 +29,7 @@ function ActivityForm({ onAddActivity }) {
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
       <div>
-        <label>Namn:</label>
+        <label>Aktivitet:</label>
         <input
           type="text"
           value={name}

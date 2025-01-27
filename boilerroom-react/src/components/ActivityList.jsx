@@ -1,3 +1,4 @@
+// renderar endast listan och ger möjlighet till redigering och borttagning,
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -66,7 +67,7 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
           // Visningsläge
           return (
             <div key={index} className="activity-item">
-              <p><strong>Namn:</strong> {activity.name}</p>
+              <p><strong>Aktivitet:</strong> {activity.name}</p>
               <p><strong>Datum:</strong> {activity.date}</p>
               <p><strong>Plats:</strong> {activity.location}</p>
               <button className="button" onClick={() => handleEditClick(index)}>

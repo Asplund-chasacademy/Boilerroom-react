@@ -1,4 +1,4 @@
-// src/index.js
+// startunkten för hel react-appen. 
 import { createRoot } from 'react-dom/client'; 
 import App from './App';
 import './index.css'; 
