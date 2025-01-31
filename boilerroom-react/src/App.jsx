@@ -1,66 +1,101 @@
-// hjärtat i reseplaneraren
-import { useState, useEffect } from 'react';
-import ActivityForm from './components/ActivityForm';
-import ActivityList from './components/ActivityList';
-import './index.css';
+// src/App.jsx
+import { useState, useEffect, lazy, Suspense, useCallback } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+
+// Lazy-laddade sidor:
+const Home = lazy(() => import('./components/pages/Home'));
+const ListPage = lazy(() => import('./components/pages/ListPage'));
+const NewTravel = lazy(() => import('./components/pages/NewTravel'));
+const Details = lazy(() => import('./components/pages/details'));
+const NotFound = lazy(() => import('./components/pages/NotFound'));
 
 function App() {
-  const [activities, setActivities] = useState([]);
+  // Spara resor i state
+  // En resa är t.ex. { id, name, date, location, description }
+  const [travels, setTravels] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // useEffect för att läsa data från t.ex. localStorage
+  // Hämta från localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('activities');
+    const stored = localStorage.getItem('travels');
     if (stored) {
-      setActivities(JSON.parse(stored));
+      setTravels(JSON.parse(stored));
     }
   }, []);
 
- // useEffect för att spara data när 'activities' ändras
+  // Spara till localStorage
   useEffect(() => {
-    localStorage.setItem('activities', JSON.stringify(activities));
-    console.log('Activities changed:', activities);
-  }, [activities]);
+    localStorage.setItem('travels', JSON.stringify(travels));
+  }, [travels]);
 
-  // Funktion för att lägga till ny aktivitet
-  const handleAddActivity = (newActivity) => {
-    setActivities((prev) => [...prev, newActivity]);
+  // Lägg till ny resa
+  const handleAddTravel = useCallback((newTravel) => {
+    setTravels(prev => [...prev, newTravel]);
     setErrorMessage('');
-  };
-  // för att ta bort en aktivitet
-  const handleRemoveActivity = (index) => {
-    const updated = activities.filter((_, i) => i !== index);
-    setActivities(updated);
-    setErrorMessage('');
-  };
+  }, []);
 
- // och för att redigera
-  const handleEditActivity = (index, updatedActivity) => {
-    const newArr = [...activities];
-    newArr[index] = updatedActivity;
-    setActivities(newArr);
+  // Ta bort resa
+  const handleRemoveTravel = useCallback((id) => {
+    setTravels(prev => prev.filter(t => t.id !== id));
     setErrorMessage('');
-  };
+  }, []);
+
+  // Redigera resa (byta ut existerande resa)
+  const handleEditTravel = useCallback((id, updatedTravel) => {
+    setTravels(prev =>
+      prev.map(t => (t.id === id ? updatedTravel : t))
+    );
+    setErrorMessage('');
+  }, []);
 
   return (
     <div className="app-container">
-      <h1>Reseplanerare</h1>
+      <Navbar />
 
-      <div className="form-section">
-        <ActivityForm onAddActivity={handleAddActivity} />
-      </div>
+      <Suspense fallback={<div>Laddar sidan...</div>}>
+        <Routes>
+          {/* Startsida: Visar INTE listan, bara en välkomsttext */}
+          <Route path="/" element={<Home />} />
 
-      {errorMessage && (
-        <div className="error-message">{errorMessage}</div>
-      )}
+          {/* /list: Visar lista över resor */}
+          <Route
+            path="/list"
+            element={
+              <ListPage
+                travels={travels}
+                onRemoveTravel={handleRemoveTravel}
+                errorMessage={errorMessage}
+              />
+            }
+          />
 
-      <div className="list-section">
-        <ActivityList
-          activities={activities}
-          onEditActivity={handleEditActivity}
-          onRemoveActivity={handleRemoveActivity}
-        />
-      </div>
+          {/* /new: Formulär för att skapa ny resa */}
+          <Route
+            path="/new"
+            element={
+              <NewTravel
+                onAddTravel={handleAddTravel}
+                errorMessage={errorMessage}
+              />
+            }
+          />
+
+          {/* /details/:id: Visa & ändra detaljer för en resa */}
+          <Route
+            path="/details/:id"
+            element={
+              <Details
+                travels={travels}
+                onEditTravel={handleEditTravel}
+              />
+            }
+          />
+
+          {/* 404 - om man går in på en ogiltig route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 // renderar endast listan och ger möjlighet till redigering och borttagning,
+// src/components/ActivityList.jsx
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
-function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
+function ActivityList({ activities, onRemoveActivity, onEditActivity }) {
+  // Lokal state för att hålla koll på redigeringsindex + nya värden
   const [editIndex, setEditIndex] = useState(null);
   const [tempName, setTempName] = useState('');
   const [tempDate, setTempDate] = useState('');
@@ -10,6 +11,7 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
 
   const handleEditClick = (index) => {
     setEditIndex(index);
+    // Fyll i fälten med det gamla värdet
     setTempName(activities[index].name);
     setTempDate(activities[index].date);
     setTempLocation(activities[index].location);
@@ -19,13 +21,17 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
     const updatedActivity = {
       name: tempName,
       date: tempDate,
-      location: tempLocation
+      location: tempLocation,
     };
+    // Anropa funktionen från props för att verkligen uppdatera i App
     onEditActivity(index, updatedActivity);
+
+    // Avsluta redigeringsläge
     setEditIndex(null);
   };
 
   const handleCancel = () => {
+    // Avbryt redigeringsläge utan att spara
     setEditIndex(null);
   };
 
@@ -36,10 +42,11 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
   return (
     <>
       {activities.map((activity, index) => {
+        // Är vi i redigeringsläge för just detta index?
         if (editIndex === index) {
-          // Redigeringsläge
+          // Visa inputfält
           return (
-            <div key={index} className="activity-item">
+            <div key={index} style={{ border: '1px solid #ccc', margin: '5px', padding: '5px' }}>
               <input
                 type="text"
                 value={tempName}
@@ -55,31 +62,19 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
                 value={tempLocation}
                 onChange={(e) => setTempLocation(e.target.value)}
               />
-              <button className="button" onClick={() => handleSave(index)}>
-                Spara
-              </button>
-              <button className="button button-secondary" onClick={handleCancel}>
-                Avbryt
-              </button>
+              <button onClick={() => handleSave(index)}>Spara</button>
+              <button onClick={handleCancel}>Avbryt</button>
             </div>
           );
         } else {
-          // Visningsläge
+          // Vanlig visning
           return (
-            <div key={index} className="activity-item">
-              <p><strong>Aktivitet:</strong> {activity.name}</p>
+            <div key={index} style={{ border: '1px solid #ccc', margin: '5px', padding: '5px' }}>
+              <p><strong>Namn:</strong> {activity.name}</p>
               <p><strong>Datum:</strong> {activity.date}</p>
               <p><strong>Plats:</strong> {activity.location}</p>
-              <button className="button" onClick={() => handleEditClick(index)}>
-                Redigera
-              </button>
-              {/* NY KNAPP: TA BORT */}
-              <button
-                className="button button-delete"
-                onClick={() => onRemoveActivity(index)}
-              >
-                Ta bort
-              </button>
+              <button onClick={() => handleEditClick(index)}>Redigera</button>
+              <button onClick={() => onRemoveActivity(index)}>Ta bort</button>
             </div>
           );
         }
@@ -87,15 +82,5 @@ function ActivityList({ activities, onEditActivity, onRemoveActivity }) {
     </>
   );
 }
-ActivityList.propTypes = {
-  activities: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      date: PropTypes.string,
-      location: PropTypes.string
-    })
-  ).isRequired,
-  onEditActivity: PropTypes.func.isRequired,
-  onRemoveActivity: PropTypes.func.isRequired
-};
+
 export default ActivityList;

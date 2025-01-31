@@ -1,9 +1,8 @@
-//ansvarig för att samla in data namna, plats, datum och skickar det vidare via
+//ansvarig för att samla in data- namna, plats, datum och skickar det vidare via
 //till app via onAddActivity
+// src/components/ActivityForm.jsx
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
- 
 function ActivityForm({ onAddActivity }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -12,7 +11,7 @@ function ActivityForm({ onAddActivity }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!name.trim() || !date.trim() || !location.trim()) {
       setFormError('Vänligen fyll i alla fält.');
       return;
@@ -20,23 +19,25 @@ function ActivityForm({ onAddActivity }) {
 
     const newActivity = { name, date, location };
     onAddActivity(newActivity);
+
+    // Töm fälten
     setName('');
     setDate('');
     setLocation('');
-    setFormError(''); 
+    setFormError('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label>Aktivitet:</label>
+        <label>Namn:</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Ex. Sightseeing"
         />
       </div>
+
       <div>
         <label>Datum:</label>
         <input
@@ -45,29 +46,21 @@ function ActivityForm({ onAddActivity }) {
           onChange={(e) => setDate(e.target.value)}
         />
       </div>
+
       <div>
         <label>Plats:</label>
         <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Ex. Stockholm"
         />
       </div>
 
-      {formError && (
-        <div style={{ color: 'red', marginTop: '10px' }}>
-          {formError}
-        </div>
-      )}
+      {formError && <div style={{ color: 'red' }}>{formError}</div>}
 
-      <button type="submit" style={{ marginTop: '10px' }}>
-        Lägg till aktivitet
-      </button>
+      <button type="submit">Lägg till aktivitet</button>
     </form>
   );
 }
-ActivityForm.propTypes = {
-  onAddActivity: PropTypes.func.isRequired
-};
+
 export default ActivityForm;
